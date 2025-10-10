@@ -1,0 +1,107 @@
+{
+  "name": "NAVYK - Educational Career Platform",
+  "description": "Cursor workspace for NAVYK project: tasks, branches, rules, and starter files.",
+  "projects": [
+    {
+      "id": "navyk-core",
+      "title": "NAVYK Core",
+      "tasks": [
+        {
+          "id": "t-backend-auth",
+          "title": "Backend: Auth & Profiles",
+          "description": "Setup Node.js/NestJS, MongoDB, JWT auth, roles (student, mentor, university, employer).",
+          "labels": [
+            "backend",
+            "auth"
+          ],
+          "priority": "high",
+          "estimate_days": 5
+        },
+        {
+          "id": "t-backend-jobs",
+          "title": "Backend: Jobs & Applications",
+          "description": "Models and endpoints for vacancies, applications, filters, pagination.",
+          "labels": [
+            "backend",
+            "jobs"
+          ],
+          "priority": "high",
+          "estimate_days": 7
+        },
+        {
+          "id": "t-frontend-mvp",
+          "title": "Frontend: MVP Pages",
+          "description": "Landing, Dashboard, Vacancies, Resume builder. React + Tailwind + React Query.",
+          "labels": [
+            "frontend",
+            "mvp"
+          ],
+          "priority": "high",
+          "estimate_days": 10
+        },
+        {
+          "id": "t-ai-parser",
+          "title": "AI: Resume Parser (PoC)",
+          "description": "Microservice for parsing resumes with LLM / heuristics. FastAPI + tests.",
+          "labels": [
+            "ai",
+            "ml"
+          ],
+          "priority": "high",
+          "estimate_days": 14
+        },
+        {
+          "id": "t-design-system",
+          "title": "Design: UI Kit & Wireframes",
+          "description": "Figma tokens, Tailwind config, basic wireframes for main flows.",
+          "labels": [
+            "design",
+            "ux"
+          ],
+          "priority": "medium",
+          "estimate_days": 7
+        },
+        {
+          "id": "t-analytics",
+          "title": "Analytics: Setup & Dashboards",
+          "description": "Integrate Mixpanel/Metabase, define key events and dashboards.",
+          "labels": [
+            "analytics"
+          ],
+          "priority": "medium",
+          "estimate_days": 5
+        },
+        {
+          "id": "t-ci-cd",
+          "title": "DevOps: CI/CD & Docker",
+          "description": "GitHub Actions pipelines, Dockerfiles, deploy to Render/Vercel.",
+          "labels": [
+            "devops"
+          ],
+          "priority": "medium",
+          "estimate_days": 6
+        },
+        {
+          "id": "t-security",
+          "title": "Security & Compliance",
+          "description": "RBAC, TLS, data export/delete flows, PII-safe logs.",
+          "labels": [
+            "security"
+          ],
+          "priority": "high",
+          "estimate_days": 4
+        }
+      ]
+    }
+  ],
+  "branch_naming": {
+    "feature": "feature/{short-desc}",
+    "bugfix": "fix/{short-desc}",
+    "hotfix": "hotfix/{short-desc}",
+    "chore": "chore/{short-desc}"
+  },
+  "templates": {
+    "pr_title": "[PROJECT] {task-id} - {short-desc}",
+    "issue_template": "### Summary\n\n### Acceptance Criteria\n\n### Steps to reproduce / Implementation notes\n"
+  }
+}

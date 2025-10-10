@@ -1,0 +1,148 @@
+# === NAVYK Project Rules ===
+# Описывает, как Cursor должен вести себя внутри конкретного проекта.
+
+project:
+  name: NAVYK
+  description: >
+    Гибридная SaaS-платформа для студентов, университетов и работодателей.
+    Фокус: AI-рекомендации, карьерное сопровождение, поиск стажировок и аналитика трудоустройства.
+    Технологии: MERN + Redis + Postgres + Docker + OpenAI API.
+  owner: NAVYK Team
+
+rules:
+
+  # === 1. Project Scope ===
+  - id: scope
+    appliesTo: all
+    description: >
+      Cursor должен понимать, что NAVYK — это образовательная и карьерная платформа,
+      с ролевой моделью (студент, ментор, университет, работодатель).
+    rules:
+      - Все предложения и автогенерации должны учитывать роли пользователей.
+      - Структура кода: `backend`, `frontend`, `ai`, `design`, `docs`.
+      - Любые AI-подсказки должны быть ориентированы на MERN-стек.
+      - Код не должен зависеть от проприетарных SDK, кроме OpenAI API.
+
+  # === 2. Backend Guidelines ===
+  - id: backend
+    appliesTo: backend
+    description: >
+      Стандарты для Node.js / Express / NestJS API.
+    rules:
+      - Использовать TypeScript (строгая типизация).
+      - Все контроллеры — в `/controllers`, бизнес-логика — в `/services`.
+      - ORM: Prisma (для Postgres) или Mongoose (для MongoDB).
+      - JWT авторизация: через middleware `authGuard`.
+      - Логи: Winston, уровень — info, error.
+      - Не использовать `any` или `@ts-ignore` в проде.
+      - Endpoints документировать в `/docs/API_spec.md`.
+
+  # === 3. Frontend Guidelines ===
+  - id: frontend
+    appliesTo: frontend
+    description: >
+      Правила для React + Tailwind интерфейса.
+    rules:
+      - Использовать React 18+ с TypeScript.
+      - Все компоненты — функциональные (hooks only).
+      - Состояние — через Context API / Zustand.
+      - Сеть — React Query + Axios.
+      - Локализация — i18next (RU/KZ/EN).
+      - Адаптивность проверять на 3 брейкпоинтах: 1280px, 768px, 375px.
+      - Код стиля: Tailwind классы + дизайн-токены из `/design/ui-kit`.
+
+  # === 4. AI / ML Layer ===
+  - id: ai
+    appliesTo: ai
+    description: >
+      Использование LLM API и Python microservices.
+    rules:
+      - AI сервисы находятся в `/ai/`.
+      - Общение между Node и Python — через REST или RPC.
+      - Ключ `OPENAI_API_KEY` берётся из окружения.
+      - Все вызовы LLM оборачивать в `try/catch` с таймаутом ≤ 20 сек.
+      - Prompt templates хранить в `/ai/prompts/`.
+      - В dev режиме использовать заглушку `mockAIResponse()`.
+
+  # === 5. Database & Caching ===
+  - id: database
+    appliesTo: backend
+    description: >
+      Работа с Postgres и Redis.
+    rules:
+      - Переменные окружения:
+          - `DATABASE_URL` — Postgres
+          - `REDIS_URL` — Redis
+      - Подключение через пул соединений (pg-pool / ioredis).
+      - Не использовать прямые SQL-запросы в коде — только ORM.
+      - Redis использовать для кэша и очередей задач (BullMQ).
+      - Все миграции хранить в `/migrations`.
+
+  # === 6. Security & Secrets ===
+  - id: security
+    appliesTo: backend
+    description: >
+      Минимальные стандарты безопасности и приватности.
+    rules:
+      - `JWT_SECRET` обязателен для всех окружений.
+      - Не логировать токены, пароли, PII.
+      - Хэширование паролей: bcrypt, saltRounds ≥ 10.
+      - HTTPS/TLS обязателен на всех сервисах.
+      - Проверка CORS: разрешены только доверенные домены.
+      - Helmet и rate limiter — активны по умолчанию.
+
+  # === 7. CI/CD & Deployment ===
+  - id: cicd
+    appliesTo: devops
+    description: >
+      Политики для автоматизации и релизов.
+    rules:
+      - Все деплои проходят через GitHub Actions.
+      - Билды должны быть детерминированными (npm ci, а не npm install).
+      - Dockerfile и .dockerignore обязательны.
+      - Secrets хранятся только в Render / GitHub Environments.
+      - Prod ветка — `main`, dev ветка — `develop`.
+
+  # === 8. Documentation ===
+  - id: docs
+    appliesTo: docs
+    description: >
+      Документация проекта должна обновляться вместе с кодом.
+    rules:
+      - Каждый endpoint описан в `/docs/API_spec.md`.
+      - Каждая фича сопровождается `/docs/feature-{name}.md`.
+      - Readme должен содержать актуальные инструкции по setup и deploy.
+      - Tech stack и зависимости обновлять при изменениях.
+
+  # === 9. Commit & PR Rules ===
+  - id: git
+    appliesTo: git
+    description: >
+      Стандарты коммитов и pull-request’ов.
+    rules:
+      - Формат коммитов: `{scope}: {message}` (например, `auth: add token refresh`).
+      - Все PR описываются шаблоном:
+        ```
+        ### Summary
+        ### Changes
+        ### Screenshots (if UI)
+        ### Testing
+        ### Checklist
+        ```
+      - PR требует минимум одного ревью.
+      - Нельзя пушить прямо в `main`.
+
+  # === 10. Quality Gates ===
+  - id: quality
+    appliesTo: all
+    description: >
+      Минимальные требования качества.
+    rules:
+      - ESLint + Prettier обязательны.
+      - Unit-тесты покрывают ≥ 80% критического кода.
+      - Перед релизом: ручная проверка UI и API.
+      - Сборка должна проходить без ошибок и предупреждений.
+
+---
+alwaysApply: true
+---

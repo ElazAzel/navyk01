@@ -1,0 +1,32 @@
+{
+  "branchRules": [
+    {
+      "pattern": "feature/.+",
+      "description": "New features"
+    },
+    {
+      "pattern": "fix/.+",
+      "description": "Bug fixes"
+    },
+    {
+      "pattern": "hotfix/.+",
+      "description": "Production hotfixes"
+    },
+    {
+      "pattern": "chore/.+",
+      "description": "Maintenance and chores"
+    }
+  ],
+  "mergeRules": [
+    {
+      "from": "feature/.+",
+      "to": "develop",
+      "requireReview": true
+    },
+    {
+      "from": "hotfix/.+",
+      "to": "main",
+      "requireReview": true
+    }
+  ]
+}
